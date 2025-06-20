@@ -8,9 +8,11 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 public class UploadProfileRequestDto {
-    private BigDecimal walletInflow;
+    private WalletInflow walletInflow;
     private int airtimeTopUpsPerMonth;
     private int utilityPayments;
     private int fintechActivity;
     private int trainingPrograms;
+    private String userId;
+
 }

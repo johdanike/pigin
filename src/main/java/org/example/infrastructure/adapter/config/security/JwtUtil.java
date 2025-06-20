@@ -4,33 +4,35 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 
-@Slf4j
 @Component
 public class JwtUtil {
 
-    private final SecretKey secretKey;
+    private final Key secretKey;
+    private final long accessTokenValidityMs;
+    private final long refreshTokenValidityMs;
 
-    private static final long ACCESS_TOKEN_EXP_MS  = 1000L * 60 * 60 * 10;
-
-    private static final long REFRESH_TOKEN_EXP_MS = 1000L * 60 * 60 * 24 * 7;
-
-    public JwtUtil(@Value("${jwt.secret}") String secret) {
+    public JwtUtil(
+            @Value("${jwt.secret}") String secret,
+            @Value("${jwt.expiration-ms}") long accessTokenValidityMs,
+            @Value("${jwt.refresh-expiration-ms}") long refreshTokenValidityMs
+    ) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.accessTokenValidityMs = accessTokenValidityMs;
+        this.refreshTokenValidityMs = refreshTokenValidityMs;
     }
 
     public String generateAccessToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXP_MS))
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidityMs))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -39,7 +41,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXP_MS))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidityMs))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -51,8 +53,7 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            log.info("Invalid JWT: {}", e.getMessage());
+        } catch (JwtException e) {
             return false;
         }
     }
@@ -65,10 +66,4 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
-
-    public long getRefreshTokenExpiryMs() {
-        return REFRESH_TOKEN_EXP_MS;
-    }
-
-
 }

@@ -5,10 +5,12 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UploadProfileResponseDto {
-    private boolean success;
+public class LoginResponse {
+    private String accessToken;
+    private String refreshToken;
+    private String userName;
     private String message;
-    private int creditScore;
+    private Boolean isLoggedIn;
     private String userId;
-
+    private String email;
 }

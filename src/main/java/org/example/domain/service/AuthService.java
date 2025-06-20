@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
+
     public String authenticate(LoginRequestDto loginRequestDto) {
         return null;
     }
