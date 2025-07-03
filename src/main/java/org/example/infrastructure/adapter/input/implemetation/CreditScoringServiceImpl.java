@@ -4,6 +4,7 @@ import org.example.domain.model.ProfileData;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class CreditScoringServiceImpl {
@@ -19,7 +20,7 @@ public class CreditScoringServiceImpl {
                 score += 30;
             } else {
                 // Partial scoring for lower amounts
-                double ratio = profileData.getMonthlyWalletInflow().divide(WALLET_THRESHOLD, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                double ratio = profileData.getMonthlyWalletInflow().divide(WALLET_THRESHOLD, 2, RoundingMode.HALF_UP).doubleValue();
                 score += (int) (30 * ratio);
             }
 

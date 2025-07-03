@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-LABEL authors="TAPPR-BACKEND"
+LABEL authors="pigin-backend"
 
 ENTRYPOINT ["top", "-b"]
 

@@ -258,6 +258,7 @@ public class UserService implements AuthUseCase, UpdateUserProfileUseCase {
     }
 
     private static boolean containsSpecialCharacters(String input) {
-        return input != null && input.matches(".*[^a-zA-Z0-9].*");
+        // For names (first and last), we should not allow numbers or special characters
+        return input != null && input.matches(".*[^a-zA-Z].*");
     }
 }
