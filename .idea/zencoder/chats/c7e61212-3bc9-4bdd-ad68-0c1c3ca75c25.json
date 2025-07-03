@@ -1,0 +1,889 @@
+{
+    "checksum": "5149e4a5b5b669e9b6228b81eaa9611ce39437093e6090ad8a56368660f5eb45",
+    "data": {
+    "id": "c7e61212-3bc9-4bdd-ad68-0c1c3ca75c25",
+    "createdAt": 1750383786442,
+    "updatedAt": 1750383800468,
+    "title": "Spring Boot Connection Errors",
+    "messages": [
+        {
+            "id": "367f7d8a-9f5b-4e0f-8613-e52c7823646a",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Maximum pool size: undefined/unknown"
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:20.589+01:00  INFO 856 --- [pigin_refactored] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)"
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:20.610+01:00  INFO 856 --- [pigin_refactored] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting..."
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:21.628+01:00  WARN 856 --- [pigin_refactored] [  restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 08001"
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:21.630+01:00 ERROR 856 --- [pigin_refactored] [  restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : Public Key Retrieval is not allowed"
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:21.644+01:00 ERROR 856 --- [pigin_refactored] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [Public Key Retrieval is not allowed] [n/a]"
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:21.647+01:00 ERROR 856 --- [pigin_refactored] [  restartedMain] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\\Users\\DELL USER\\Desktop\\pigin\\target\\classes\\org\\example\\infrastructure\\adapter\\config\\security\\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customUserDetailsService' defined in file [C:\\Users\\DELL USER\\Desktop\\pigin\\target\\classes\\org\\example\\domain\\service\\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jpaUserRepository' defined in org.example.infrastructure.adapter.output.repositories.JpaUserRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'"
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:21.695+01:00  INFO 856 --- [pigin_refactored] [  restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]"
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:21.703+01:00  WARN 856 --- [pigin_refactored] [  restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server"
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:21.719+01:00  INFO 856 --- [pigin_refactored] [  restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : "
+                },
+                {
+                    "type": "text",
+                    "text": "Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled."
+                },
+                {
+                    "type": "text",
+                    "text": "2025-06-20T02:42:21.748+01:00 ERROR 856 --- [pigin_refactored] [  restartedMain] o.s.boot.SpringApplication               : Application run failed"
+                },
+                {
+                    "type": "text",
+                    "text": "org.springframework.context.ApplicationContextException: Unable to start web server"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:165) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:621) ~[spring-context-6.2.1.jar:6.2.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.example.Main.main(Main.java:12) ~[classes/:na]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:147) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:107) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:516) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:222) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:188) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:162) ~[spring-boot-3.4.1.jar:3.4.1]"
+                },
+                {
+                    "type": "text",
+                    "text": "\t... 13 common frames omitted"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/main/java/org/example/Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/CustomUserDetailsService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\CustomUserDetailsService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/JwtAuthenticationFilter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\JwtAuthenticationFilter.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/repositories/ProfileDataRepository.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\ProfileDataRepository.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/repositories/JpaLoanRepository.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\JpaLoanRepository.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/repositories/JpaUserRepository.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\JpaUserRepository.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/implementations/UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\CustomUserDetailsService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\CustomUserDetailsService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\JwtAuthenticationFilter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\JwtAuthenticationFilter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\JpaUserRepository.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\JpaUserRepository.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/entity/ProfileDataEntity.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\entity\\ProfileDataEntity.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/resources/secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/CreditScoreCalculator.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/WebClientConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\WebClientConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/SignUpResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\SignUpResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoginRequest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoginRequest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "../../AppData/Roaming/JetBrains/IntelliJIdea2024.2/scratches/generated-requests.http",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\..\\..\\AppData\\Roaming\\JetBrains\\IntelliJIdea2024.2\\scratches\\generated-requests.http",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/UserController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "src\\main\\resources\\application.properties"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "src\\main\\resources\\application.properties"
+                    }
+                ]
+            },
+            "createdAt": 1750383786468,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tMaximum pool size: undefined/unknown"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:20.589+01:00  INFO 856 --- [pigin_refactored] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:20.610+01:00  INFO 856 --- [pigin_refactored] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting..."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:21.628+01:00  WARN 856 --- [pigin_refactored] [  restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 08001"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:21.630+01:00 ERROR 856 --- [pigin_refactored] [  restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : Public Key Retrieval is not allowed"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:21.644+01:00 ERROR 856 --- [pigin_refactored] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [Public Key Retrieval is not allowed] [n/a]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:21.647+01:00 ERROR 856 --- [pigin_refactored] [  restartedMain] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\\Users\\DELL USER\\Desktop\\pigin\\target\\classes\\org\\example\\infrastructure\\adapter\\config\\security\\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customUserDetailsService' defined in file [C:\\Users\\DELL USER\\Desktop\\pigin\\target\\classes\\org\\example\\domain\\service\\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jpaUserRepository' defined in org.example.infrastructure.adapter.output.repositories.JpaUserRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:21.695+01:00  INFO 856 --- [pigin_refactored] [  restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:21.703+01:00  WARN 856 --- [pigin_refactored] [  restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:21.719+01:00  INFO 856 --- [pigin_refactored] [  restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : "
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "2025-06-20T02:42:21.748+01:00 ERROR 856 --- [pigin_refactored] [  restartedMain] o.s.boot.SpringApplication               : Application run failed"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "org.springframework.context.ApplicationContextException: Unable to start web server"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:165) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:621) ~[spring-context-6.2.1.jar:6.2.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.example.Main.main(Main.java:12) ~[classes/:na]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:147) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:107) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:516) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:222) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:188) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:162) ~[spring-boot-3.4.1.jar:3.4.1]"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\t... 13 common frames omitted"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "70435330-3853-49ca-a3a8-37e47a0a54a8",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "The log messages and the `application.properties` file you've provided indicate several issues with your Spring Boot application. Let's address them one by one:\n\n1. **JTA Platform Warning**:\n   - The log message `No JTA platform available` suggests that Hibernate is not configured to use a JTA platform. If your application requires JTA transactions, you should set the `hibernate.transaction.jta.platform` property in your `application.properties` file. If not, you can ignore this warning.\n\n2. **SQL Error - Public Key Retrieval**:\n   - The error `Public Key Retrieval is not allowed` indicates a problem with the MySQL connection. This usually happens when the MySQL server requires a secure connection and the client is not configured to retrieve the public key. You can resolve this by adding `allowPublicKeyRetrieval=true` to your JDBC URL in `application.properties`:\n     ```properties\n     spring.datasource.url=jdbc:mysql://localhost:3306/pigin_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true\n     ```\n\n3. **Unsatisfied Dependency Exception**:\n   - The error related to `UnsatisfiedDependencyException` suggests that there is a problem with bean creation, likely due to a missing or misconfigured dependency. Ensure that all required beans are properly defined and that there are no circular dependencies. The `spring.main.allow-circular-references=true` setting allows circular references, but it's better to resolve them if possible.\n\n4. **Tomcat Startup Failure**:\n   - The error `Unable to start embedded Tomcat` indicates a failure in starting the web server. This could be related to the previous issues or a port conflict. Ensure that the port specified in `server.port` is available and not in use by another application.\n\n5. **Environment Variables**:\n   - The `application.properties` file uses placeholders for environment variables (e.g., `${DATABASE_USERNAME}`, `${DATABASE_PASS}`). Ensure these environment variables are set correctly in your environment.\n\n6. **Debugging**:\n   - To get more detailed logs, you can run your application with the `debug` flag enabled. This will provide more insights into what might be going wrong.\n\nBy addressing these issues, you should be able to resolve the errors and start your application successfully. If you continue to experience problems, consider enabling more detailed logging or checking for additional configuration issues."
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/main/java/org/example/Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/CustomUserDetailsService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\CustomUserDetailsService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/JwtAuthenticationFilter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\JwtAuthenticationFilter.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/repositories/ProfileDataRepository.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\ProfileDataRepository.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/repositories/JpaLoanRepository.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\JpaLoanRepository.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/repositories/JpaUserRepository.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\JpaUserRepository.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/implementations/UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\CustomUserDetailsService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\CustomUserDetailsService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\JwtAuthenticationFilter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\JwtAuthenticationFilter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\JpaUserRepository.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\repositories\\JpaUserRepository.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/entity/ProfileDataEntity.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\entity\\ProfileDataEntity.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/resources/secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/CreditScoreCalculator.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/WebClientConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\WebClientConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/SignUpResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\SignUpResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoginRequest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoginRequest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "../../AppData/Roaming/JetBrains/IntelliJIdea2024.2/scratches/generated-requests.http",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\..\\..\\AppData\\Roaming\\JetBrains\\IntelliJIdea2024.2\\scratches\\generated-requests.http",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/UserController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "src\\main\\resources\\application.properties"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "src\\main\\resources\\application.properties"
+                    }
+                ]
+            },
+            "createdAt": 1750383800468,
+            "isInternal": false
+        }
+    ],
+    "isAgent": false,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "autoApply": false
+}
+}

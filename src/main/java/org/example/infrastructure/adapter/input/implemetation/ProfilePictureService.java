@@ -19,12 +19,16 @@ public class ProfilePictureService {
     @Value("${walrus.download.url}")
     private String walrusDownloadUrl;
 
-
     public UploadProfilePicResponseDto uploadProfilePicture(String userId, MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("Uploaded file is empty or null");
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
         String blobId = walrusCloudService.upload(file);
-        String fileUrl = walrusDownloadUrl + "/" + blobId;
+        String fileUrl = String.format("%s/%s", walrusDownloadUrl.replaceAll("/$", ""), blobId);
         user.setProfilePictureUrl(fileUrl);
         userRepository.save(user);
 
@@ -37,4 +41,10 @@ public class ProfilePictureService {
         responseDto.setMessage("Profile picture uploaded successfully");
         return responseDto;
     }
+
+    public byte[] getFileBy(String blobId){
+        return walrusCloudService.getFileBy(blobId);
+    }
+
+
 }

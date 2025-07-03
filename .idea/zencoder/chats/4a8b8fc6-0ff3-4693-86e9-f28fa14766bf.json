@@ -1,0 +1,469 @@
+{
+    "checksum": "da109cbdd6f8379c229838596e62829e5e7b2a1d92d571d7190476228df88077",
+    "data": {
+    "id": "4a8b8fc6-0ff3-4693-86e9-f28fa14766bf",
+    "createdAt": 1750382285538,
+    "updatedAt": 1750382341114,
+    "title": "Debugging SecurityConfig Java",
+    "messages": [
+        {
+            "id": "635c1181-7893-46de-a74f-9af13e4e98c8",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "look for bugs and fix"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example.infrastructure.adapter.config.security;\r\n\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\nimport org.springframework.http.HttpMethod;\r\nimport org.springframework.security.authentication.AuthenticationManager;\r\nimport org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;\r\nimport org.springframework.security.config.Customizer;\r\nimport org.springframework.security.config.annotation.web.builders.HttpSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\r\nimport org.springframework.security.config.http.SessionCreationPolicy;\r\nimport org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;\r\nimport org.springframework.security.crypto.password.PasswordEncoder;\r\nimport org.springframework.security.web.SecurityFilterChain;\r\nimport org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;\r\nimport org.springframework.web.cors.*;\r\n\r\nimport java.util.List;\r\n\r\n@Configuration\r\n@EnableWebSecurity\r\n@RequiredArgsConstructor\r\npublic class SecurityConfig {\r\n\r\n    private final JwtAuthenticationFilter jwtAuthenticationFilter;\r\n\r\n    @Bean\r\n    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\r\n        http\r\n                .cors(Customizer.withDefaults())\r\n                .csrf(csrf -> csrf.disable())\r\n                .sessionManagement(sess -> sess\r\n                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))\r\n                .authorizeHttpRequests(auth -> auth\r\n                        .requestMatchers(HttpMethod.POST, \"/api/auth/v1/signup\").permitAll()\r\n                        .requestMatchers(HttpMethod.POST, \"/api/auth/v1/login\").permitAll()\r\n                        .requestMatchers(\"/api/auth/v1/refresh-token\").permitAll()\r\n                        .anyRequest().authenticated()\r\n                )\r\n                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);\r\n\r\n        return http.build();\r\n    }\r\n\r\n    @Bean\r\n    public CorsConfigurationSource corsConfigurationSource() {\r\n        CorsConfiguration config = new CorsConfiguration();\r\n        config.setAllowedOrigins(List.of(\"http://localhost:3000\", \"http://localhost:3002\"));\r\n        config.setAllowedMethods(List.of(\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"));\r\n        config.setAllowedHeaders(List.of(\"*\"));\r\n        config.setAllowCredentials(true);\r\n\r\n        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();\r\n        source.registerCorsConfiguration(\"/**\", config);\r\n        return source;\r\n    }\r\n\r\n    @Bean\r\n    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)\r\n            throws Exception {\r\n        return configuration.getAuthenticationManager();\r\n    }\r\n\r\n    @Bean\r\n    public PasswordEncoder passwordEncoder() {\r\n        return new BCryptPasswordEncoder();\r\n    }\r\n}\r\n"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\AuthService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\AuthService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/entity/ProfileDataEntity.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\entity\\ProfileDataEntity.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/CreditScoreCalculator.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/AuthController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/WebClientConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\WebClientConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/SignUpResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\SignUpResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoginRequest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoginRequest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "../../AppData/Roaming/JetBrains/IntelliJIdea2024.2/scratches/generated-requests.http",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\..\\..\\AppData\\Roaming\\JetBrains\\IntelliJIdea2024.2\\scratches\\generated-requests.http",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/UserController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\UserService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example.infrastructure.adapter.config.security;\r\n\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\nimport org.springframework.http.HttpMethod;\r\nimport org.springframework.security.authentication.AuthenticationManager;\r\nimport org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;\r\nimport org.springframework.security.config.Customizer;\r\nimport org.springframework.security.config.annotation.web.builders.HttpSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\r\nimport org.springframework.security.config.http.SessionCreationPolicy;\r\nimport org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;\r\nimport org.springframework.security.crypto.password.PasswordEncoder;\r\nimport org.springframework.security.web.SecurityFilterChain;\r\nimport org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;\r\nimport org.springframework.web.cors.*;\r\n\r\nimport java.util.List;\r\n\r\n@Configuration\r\n@EnableWebSecurity\r\n@RequiredArgsConstructor\r\npublic class SecurityConfig {\r\n\r\n    private final JwtAuthenticationFilter jwtAuthenticationFilter;\r\n\r\n    @Bean\r\n    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\r\n        http\r\n                .cors(Customizer.withDefaults())\r\n                .csrf(csrf -> csrf.disable())\r\n                .sessionManagement(sess -> sess\r\n                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))\r\n                .authorizeHttpRequests(auth -> auth\r\n                        .requestMatchers(HttpMethod.POST, \"/api/auth/v1/signup\").permitAll()\r\n                        .requestMatchers(HttpMethod.POST, \"/api/auth/v1/login\").permitAll()\r\n                        .requestMatchers(\"/api/auth/v1/refresh-token\").permitAll()\r\n                        .anyRequest().authenticated()\r\n                )\r\n                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);\r\n\r\n        return http.build();\r\n    }\r\n\r\n    @Bean\r\n    public CorsConfigurationSource corsConfigurationSource() {\r\n        CorsConfiguration config = new CorsConfiguration();\r\n        config.setAllowedOrigins(List.of(\"http://localhost:3000\", \"http://localhost:3002\"));\r\n        config.setAllowedMethods(List.of(\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"));\r\n        config.setAllowedHeaders(List.of(\"*\"));\r\n        config.setAllowCredentials(true);\r\n\r\n        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();\r\n        source.registerCorsConfiguration(\"/**\", config);\r\n        return source;\r\n    }\r\n\r\n    @Bean\r\n    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)\r\n            throws Exception {\r\n        return configuration.getAuthenticationManager();\r\n    }\r\n\r\n    @Bean\r\n    public PasswordEncoder passwordEncoder() {\r\n        return new BCryptPasswordEncoder();\r\n    }\r\n}\r\n"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\UserService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java"
+                    }
+                ]
+            },
+            "createdAt": 1750382285575,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "look for bugs and fix"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "f3484f93-77fd-4056-993d-a0ef14373556",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let's review the `SecurityConfig.java` file for potential bugs and improvements:\n\n1. **CORS Configuration**:\n   - The `corsConfigurationSource` method allows all headers with `config.setAllowedHeaders(List.of(\"*\"));`. While this is convenient during development, it might be too permissive for production. Consider specifying only the necessary headers to enhance security.\n\n2. **CSRF Protection**:\n   - CSRF is disabled with `csrf(csrf -> csrf.disable())`. This is common for stateless APIs, but ensure that this is a deliberate choice and that other security measures are in place to protect against CSRF attacks.\n\n3. **Session Management**:\n   - The session management is set to `SessionCreationPolicy.STATELESS`, which is appropriate for REST APIs using JWTs. Ensure that all endpoints are correctly handling JWTs and that tokens are securely stored and transmitted.\n\n4. **JWT Authentication Filter**:\n   - The `jwtAuthenticationFilter` is added before `UsernamePasswordAuthenticationFilter`. Ensure that this filter is correctly implemented and that it properly validates JWTs.\n\n5. **Error Handling**:\n   - Consider adding exception handling for security-related exceptions to provide meaningful error messages to clients.\n\n6. **Logging**:\n   - Ensure that sensitive information, such as passwords or tokens, is not logged.\n\n7. **Security Headers**:\n   - Consider adding security headers like `Content-Security-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, and `X-XSS-Protection` to enhance security.\n\n8. **Allowed Origins**:\n   - The allowed origins are hardcoded to `http://localhost:3000` and `http://localhost:3002`. Ensure these are updated for production environments to include only trusted domains.\n\nIf you have any specific issues or errors you're encountering, please provide more details so I can assist you further."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example.infrastructure.adapter.config.security;\r\n\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\nimport org.springframework.http.HttpMethod;\r\nimport org.springframework.security.authentication.AuthenticationManager;\r\nimport org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;\r\nimport org.springframework.security.config.Customizer;\r\nimport org.springframework.security.config.annotation.web.builders.HttpSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\r\nimport org.springframework.security.config.http.SessionCreationPolicy;\r\nimport org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;\r\nimport org.springframework.security.crypto.password.PasswordEncoder;\r\nimport org.springframework.security.web.SecurityFilterChain;\r\nimport org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;\r\nimport org.springframework.web.cors.*;\r\n\r\nimport java.util.List;\r\n\r\n@Configuration\r\n@EnableWebSecurity\r\n@RequiredArgsConstructor\r\npublic class SecurityConfig {\r\n\r\n    private final JwtAuthenticationFilter jwtAuthenticationFilter;\r\n\r\n    @Bean\r\n    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\r\n        http\r\n                .cors(Customizer.withDefaults())\r\n                .csrf(csrf -> csrf.disable())\r\n                .sessionManagement(sess -> sess\r\n                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))\r\n                .authorizeHttpRequests(auth -> auth\r\n                        .requestMatchers(HttpMethod.POST, \"/api/auth/v1/signup\").permitAll()\r\n                        .requestMatchers(HttpMethod.POST, \"/api/auth/v1/login\").permitAll()\r\n                        .requestMatchers(\"/api/auth/v1/refresh-token\").permitAll()\r\n                        .anyRequest().authenticated()\r\n                )\r\n                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);\r\n\r\n        return http.build();\r\n    }\r\n\r\n    @Bean\r\n    public CorsConfigurationSource corsConfigurationSource() {\r\n        CorsConfiguration config = new CorsConfiguration();\r\n        config.setAllowedOrigins(List.of(\"http://localhost:3000\", \"http://localhost:3002\"));\r\n        config.setAllowedMethods(List.of(\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"));\r\n        config.setAllowedHeaders(List.of(\"*\"));\r\n        config.setAllowCredentials(true);\r\n\r\n        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();\r\n        source.registerCorsConfiguration(\"/**\", config);\r\n        return source;\r\n    }\r\n\r\n    @Bean\r\n    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)\r\n            throws Exception {\r\n        return configuration.getAuthenticationManager();\r\n    }\r\n\r\n    @Bean\r\n    public PasswordEncoder passwordEncoder() {\r\n        return new BCryptPasswordEncoder();\r\n    }\r\n}\r\n"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\AuthService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\AuthService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/entity/ProfileDataEntity.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\entity\\ProfileDataEntity.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/CreditScoreCalculator.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/AuthController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/WebClientConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\WebClientConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/SignUpResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\SignUpResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoginRequest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoginRequest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "../../AppData/Roaming/JetBrains/IntelliJIdea2024.2/scratches/generated-requests.http",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\..\\..\\AppData\\Roaming\\JetBrains\\IntelliJIdea2024.2\\scratches\\generated-requests.http",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/UserController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\UserService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\SecurityConfig.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example.infrastructure.adapter.config.security;\r\n\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\nimport org.springframework.http.HttpMethod;\r\nimport org.springframework.security.authentication.AuthenticationManager;\r\nimport org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;\r\nimport org.springframework.security.config.Customizer;\r\nimport org.springframework.security.config.annotation.web.builders.HttpSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\r\nimport org.springframework.security.config.http.SessionCreationPolicy;\r\nimport org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;\r\nimport org.springframework.security.crypto.password.PasswordEncoder;\r\nimport org.springframework.security.web.SecurityFilterChain;\r\nimport org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;\r\nimport org.springframework.web.cors.*;\r\n\r\nimport java.util.List;\r\n\r\n@Configuration\r\n@EnableWebSecurity\r\n@RequiredArgsConstructor\r\npublic class SecurityConfig {\r\n\r\n    private final JwtAuthenticationFilter jwtAuthenticationFilter;\r\n\r\n    @Bean\r\n    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\r\n        http\r\n                .cors(Customizer.withDefaults())\r\n                .csrf(csrf -> csrf.disable())\r\n                .sessionManagement(sess -> sess\r\n                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))\r\n                .authorizeHttpRequests(auth -> auth\r\n                        .requestMatchers(HttpMethod.POST, \"/api/auth/v1/signup\").permitAll()\r\n                        .requestMatchers(HttpMethod.POST, \"/api/auth/v1/login\").permitAll()\r\n                        .requestMatchers(\"/api/auth/v1/refresh-token\").permitAll()\r\n                        .anyRequest().authenticated()\r\n                )\r\n                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);\r\n\r\n        return http.build();\r\n    }\r\n\r\n    @Bean\r\n    public CorsConfigurationSource corsConfigurationSource() {\r\n        CorsConfiguration config = new CorsConfiguration();\r\n        config.setAllowedOrigins(List.of(\"http://localhost:3000\", \"http://localhost:3002\"));\r\n        config.setAllowedMethods(List.of(\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"));\r\n        config.setAllowedHeaders(List.of(\"*\"));\r\n        config.setAllowCredentials(true);\r\n\r\n        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();\r\n        source.registerCorsConfiguration(\"/**\", config);\r\n        return source;\r\n    }\r\n\r\n    @Bean\r\n    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)\r\n            throws Exception {\r\n        return configuration.getAuthenticationManager();\r\n    }\r\n\r\n    @Bean\r\n    public PasswordEncoder passwordEncoder() {\r\n        return new BCryptPasswordEncoder();\r\n    }\r\n}\r\n"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\CreditScoreCalculator.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\UserService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java"
+                    }
+                ]
+            },
+            "createdAt": 1750382341114,
+            "isInternal": false
+        }
+    ],
+    "isAgent": false,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "autoApply": false
+}
+}

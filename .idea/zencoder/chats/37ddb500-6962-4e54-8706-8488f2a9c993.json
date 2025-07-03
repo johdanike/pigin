@@ -1,0 +1,555 @@
+{
+    "checksum": "bc2c7564f5f187a1e532ca551bdf5acf52b6f940e3705efb2240cf96747d2543",
+    "data": {
+    "id": "37ddb500-6962-4e54-8706-8488f2a9c993",
+    "createdAt": 1751458380636,
+    "updatedAt": 1751458405896,
+    "title": "Java Error Review and Fixes",
+    "messages": [
+        {
+            "id": "1bcbd41c-9b7a-49a2-8948-b80e961c597e",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "find errors and fix"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example.infrastructure.adapter.output.walrus;\r\n\r\nimport lombok.RequiredArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.apache.coyote.Response;\r\nimport org.example.infrastructure.adapter.input.dto.responses.walrus.WalrusUploadResponse;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.core.io.Resource;\r\nimport org.springframework.http.*;\r\nimport org.springframework.stereotype.Component;\r\nimport org.springframework.web.client.RestTemplate;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.util.Arrays;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\nimport static org.springframework.http.HttpMethod.PUT;\r\n\r\n@Slf4j\r\n@Component\r\n@RequiredArgsConstructor\r\npublic class WalrusCloudService implements CloudServiceUseCase {\r\n    @Value(\"${walrus.epochs}\")\r\n    private String epochs;\r\n    @Value(\"${walrus.address}\")\r\n    private String walrusUploadAddress;\r\n    @Value(\"${walrus.upload.url}\")\r\n    private String walrusUploadURL;\r\n    @Value(\"${walrus.download.url}\")\r\n    private String walrusDownloadURL;\r\n\r\n    private final RestTemplate restTemplate;\r\n\r\n    @Override\r\n    public String upload(MultipartFile file) {\r\n        return extractBlobIdFrom(restTemplate.exchange(walrusUploadURL, PUT,\r\n                buildUploadRequest(file), WalrusUploadResponse.class, createQueryParam()));\r\n    }\r\n\r\n    @Override\r\n    public byte[] getFileBy(String blobId) {\r\n        try{\r\n            log.info(\"Downloading file with id {}\", blobId);\r\n            log.info(\"URL: {}\", walrusDownloadURL + \"/\" + blobId);\r\n\r\n            RestTemplate restTemplate = new RestTemplate();\r\n            HttpHeaders headers = new HttpHeaders();\r\n            headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL));\r\n            HttpEntity<?> entity = new HttpEntity<>(headers);\r\n\r\n            ResponseEntity<byte[]> response = restTemplate.exchange(\r\n                    walrusDownloadURL + \"/\" + blobId,\r\n                    HttpMethod.GET,\r\n                    entity,\r\n                    byte[].class\r\n            );\r\n\r\n        log.info(\"Response status: {}\", response.getStatusCode());\r\n        log.info(\"Content lenght: {}\", response.getBody() != null ? response.getBody().length : \"null\");\r\n\r\n        return response.getBody();\r\n        } catch(Exception e){\r\n            log.error(\"Download failed for blob ID {} due to error: {}\", blobId, e.getMessage(), e);\r\n            return null;\r\n        }\r\n//        ResponseEntity<byte[]> response = restTemplate.getForEntity(walrusDownloadURL + \"/\" + blobId, byte[].class);\r\n//        return response.getBody();\r\n    }\r\n\r\n    private HttpEntity<?> buildUploadRequest(MultipartFile file) {\r\n        HttpHeaders headers = new HttpHeaders();\r\n        headers.setContentType(MediaType.MULTIPART_FORM_DATA);\r\n        Resource resource = file.getResource();\r\n        return new HttpEntity<>(resource, headers);\r\n    }\r\n\r\n    private static String extractBlobIdFrom(ResponseEntity<WalrusUploadResponse> response) {\r\n        WalrusUploadResponse walrusUploadResponse = response.getBody();\r\n        boolean isFileAlreadyExists = walrusUploadResponse != null && walrusUploadResponse.getNewlyCreated() == null;\r\n        if (isFileAlreadyExists) return walrusUploadResponse.getAlreadyCertified().getBlobId();\r\n        assert walrusUploadResponse != null;\r\n        return walrusUploadResponse.getNewlyCreated().getBlobObject().getBlobId();\r\n    }\r\n\r\n    private Map<String, ?> createQueryParam() {\r\n        Map<String, Object> params = new HashMap<>();\r\n        params.put(\"epochs\", epochs);\r\n        params.put(\"send_object_to\", walrusUploadAddress);\r\n        return params;\r\n    }\r\n}"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/utils/exceptions/UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/LoanApplicationServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/LoanService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/UploadProfileResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\UploadProfileResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/UploadProfilePicResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\UploadProfilePicResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/WalrusUploadResponse.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\WalrusUploadResponse.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/AlreadyCertified.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\AlreadyCertified.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/BlobObject.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\BlobObject.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/CloudServiceUseCase.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\CloudServiceUseCase.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/enums/LoanStatus.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\enums\\LoanStatus.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\UserService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example.infrastructure.adapter.output.walrus;\r\n\r\nimport lombok.RequiredArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.apache.coyote.Response;\r\nimport org.example.infrastructure.adapter.input.dto.responses.walrus.WalrusUploadResponse;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.core.io.Resource;\r\nimport org.springframework.http.*;\r\nimport org.springframework.stereotype.Component;\r\nimport org.springframework.web.client.RestTemplate;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.util.Arrays;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\nimport static org.springframework.http.HttpMethod.PUT;\r\n\r\n@Slf4j\r\n@Component\r\n@RequiredArgsConstructor\r\npublic class WalrusCloudService implements CloudServiceUseCase {\r\n    @Value(\"${walrus.epochs}\")\r\n    private String epochs;\r\n    @Value(\"${walrus.address}\")\r\n    private String walrusUploadAddress;\r\n    @Value(\"${walrus.upload.url}\")\r\n    private String walrusUploadURL;\r\n    @Value(\"${walrus.download.url}\")\r\n    private String walrusDownloadURL;\r\n\r\n    private final RestTemplate restTemplate;\r\n\r\n    @Override\r\n    public String upload(MultipartFile file) {\r\n        return extractBlobIdFrom(restTemplate.exchange(walrusUploadURL, PUT,\r\n                buildUploadRequest(file), WalrusUploadResponse.class, createQueryParam()));\r\n    }\r\n\r\n    @Override\r\n    public byte[] getFileBy(String blobId) {\r\n        try{\r\n            log.info(\"Downloading file with id {}\", blobId);\r\n            log.info(\"URL: {}\", walrusDownloadURL + \"/\" + blobId);\r\n\r\n            RestTemplate restTemplate = new RestTemplate();\r\n            HttpHeaders headers = new HttpHeaders();\r\n            headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL));\r\n            HttpEntity<?> entity = new HttpEntity<>(headers);\r\n\r\n            ResponseEntity<byte[]> response = restTemplate.exchange(\r\n                    walrusDownloadURL + \"/\" + blobId,\r\n                    HttpMethod.GET,\r\n                    entity,\r\n                    byte[].class\r\n            );\r\n\r\n        log.info(\"Response status: {}\", response.getStatusCode());\r\n        log.info(\"Content lenght: {}\", response.getBody() != null ? response.getBody().length : \"null\");\r\n\r\n        return response.getBody();\r\n        } catch(Exception e){\r\n            log.error(\"Download failed for blob ID {} due to error: {}\", blobId, e.getMessage(), e);\r\n            return null;\r\n        }\r\n//        ResponseEntity<byte[]> response = restTemplate.getForEntity(walrusDownloadURL + \"/\" + blobId, byte[].class);\r\n//        return response.getBody();\r\n    }\r\n\r\n    private HttpEntity<?> buildUploadRequest(MultipartFile file) {\r\n        HttpHeaders headers = new HttpHeaders();\r\n        headers.setContentType(MediaType.MULTIPART_FORM_DATA);\r\n        Resource resource = file.getResource();\r\n        return new HttpEntity<>(resource, headers);\r\n    }\r\n\r\n    private static String extractBlobIdFrom(ResponseEntity<WalrusUploadResponse> response) {\r\n        WalrusUploadResponse walrusUploadResponse = response.getBody();\r\n        boolean isFileAlreadyExists = walrusUploadResponse != null && walrusUploadResponse.getNewlyCreated() == null;\r\n        if (isFileAlreadyExists) return walrusUploadResponse.getAlreadyCertified().getBlobId();\r\n        assert walrusUploadResponse != null;\r\n        return walrusUploadResponse.getNewlyCreated().getBlobObject().getBlobId();\r\n    }\r\n\r\n    private Map<String, ?> createQueryParam() {\r\n        Map<String, Object> params = new HashMap<>();\r\n        params.put(\"epochs\", epochs);\r\n        params.put(\"send_object_to\", walrusUploadAddress);\r\n        return params;\r\n    }\r\n}"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\UserService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java"
+                    }
+                ]
+            },
+            "createdAt": 1751458380693,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "find errors and fix "
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "88c8b9aa-078e-4663-8cc0-90db19934b16",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Let's review the `WalrusCloudService.java` file for potential errors and improvements:\n\n1. **Unused Import**: The import `org.apache.coyote.Response` is not used in the code and can be removed.\n\n2. **Redundant RestTemplate Instantiation**: In the `getFileBy` method, a new `RestTemplate` instance is created, but the class already has a `RestTemplate` injected via constructor. Use the injected `restTemplate` instead.\n\n3. **Logging Typo**: In the `getFileBy` method, there's a typo in the log message: \"Content lenght\" should be \"Content length\".\n\n4. **Error Handling**: The `getFileBy` method returns `null` if an exception occurs. Consider throwing a custom exception or returning an empty byte array to handle errors more gracefully.\n\n5. **Assertions**: The `extractBlobIdFrom` method uses `assert` to check if `walrusUploadResponse` is not null. It's better to handle this with a proper exception to avoid runtime errors when assertions are disabled.\n\n6. **Method Naming**: The method `createQueryParam` could be renamed to `createQueryParams` to better reflect that it returns a map of parameters.\n\nHere's the revised code with these improvements:\n\n```java\npackage org.example.infrastructure.adapter.output.walrus;\n\nimport lombok.RequiredArgsConstructor;\nimport lombok.extern.slf4j.Slf4j;\nimport org.example.infrastructure.adapter.input.dto.responses.walrus.WalrusUploadResponse;\nimport org.springframework.beans.factory.annotation.Value;\nimport org.springframework.core.io.Resource;\nimport org.springframework.http.*;\nimport org.springframework.stereotype.Component;\nimport org.springframework.web.client.RestTemplate;\nimport org.springframework.web.multipart.MultipartFile;\n\nimport java.util.Arrays;\nimport java.util.HashMap;\nimport java.util.Map;\n\nimport static org.springframework.http.HttpMethod.PUT;\n\n@Slf4j\n@Component\n@RequiredArgsConstructor\npublic class WalrusCloudService implements CloudServiceUseCase {\n    @Value(\"${walrus.epochs}\")\n    private String epochs;\n    @Value(\"${walrus.address}\")\n    private String walrusUploadAddress;\n    @Value(\"${walrus.upload.url}\")\n    private String walrusUploadURL;\n    @Value(\"${walrus.download.url}\")\n    private String walrusDownloadURL;\n\n    private final RestTemplate restTemplate;\n\n    @Override\n    public String upload(MultipartFile file) {\n        return extractBlobIdFrom(restTemplate.exchange(walrusUploadURL, PUT,\n                buildUploadRequest(file), WalrusUploadResponse.class, createQueryParams()));\n    }\n\n    @Override\n    public byte[] getFileBy(String blobId) {\n        try {\n            log.info(\"Downloading file with id {}\", blobId);\n            log.info(\"URL: {}\", walrusDownloadURL + \"/\" + blobId);\n\n            HttpHeaders headers = new HttpHeaders();\n            headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL));\n            HttpEntity<?> entity = new HttpEntity<>(headers);\n\n            ResponseEntity<byte[]> response = restTemplate.exchange(\n                    walrusDownloadURL + \"/\" + blobId,\n                    HttpMethod.GET,\n                    entity,\n                    byte[].class\n            );\n\n            log.info(\"Response status: {}\", response.getStatusCode());\n            log.info(\"Content length: {}\", response.getBody() != null ? response.getBody().length : \"null\");\n\n            return response.getBody();\n        } catch (Exception e) {\n            log.error(\"Download failed for blob ID {} due to error: {}\", blobId, e.getMessage(), e);\n            return new byte[0]; // Return an empty byte array instead of null\n        }\n    }\n\n    private HttpEntity<?> buildUploadRequest(MultipartFile file) {\n        HttpHeaders headers = new HttpHeaders();\n        headers.setContentType(MediaType.MULTIPART_FORM_DATA);\n        Resource resource = file.getResource();\n        return new HttpEntity<>(resource, headers);\n    }\n\n    private static String extractBlobIdFrom(ResponseEntity<WalrusUploadResponse> response) {\n        WalrusUploadResponse walrusUploadResponse = response.getBody();\n        if (walrusUploadResponse == null) {\n            throw new IllegalStateException(\"Response body is null\");\n        }\n        boolean isFileAlreadyExists = walrusUploadResponse.getNewlyCreated() == null;\n        if (isFileAlreadyExists) return walrusUploadResponse.getAlreadyCertified().getBlobId();\n        return walrusUploadResponse.getNewlyCreated().getBlobObject().getBlobId();\n    }\n\n    private Map<String, ?> createQueryParams() {\n        Map<String, Object> params = new HashMap<>();\n        params.put(\"epochs\", epochs);\n        params.put(\"send_object_to\", walrusUploadAddress);\n        return params;\n    }\n}\n```\n\nThese changes should improve the code's readability, maintainability, and error handling."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example.infrastructure.adapter.output.walrus;\r\n\r\nimport lombok.RequiredArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.apache.coyote.Response;\r\nimport org.example.infrastructure.adapter.input.dto.responses.walrus.WalrusUploadResponse;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.core.io.Resource;\r\nimport org.springframework.http.*;\r\nimport org.springframework.stereotype.Component;\r\nimport org.springframework.web.client.RestTemplate;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.util.Arrays;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\nimport static org.springframework.http.HttpMethod.PUT;\r\n\r\n@Slf4j\r\n@Component\r\n@RequiredArgsConstructor\r\npublic class WalrusCloudService implements CloudServiceUseCase {\r\n    @Value(\"${walrus.epochs}\")\r\n    private String epochs;\r\n    @Value(\"${walrus.address}\")\r\n    private String walrusUploadAddress;\r\n    @Value(\"${walrus.upload.url}\")\r\n    private String walrusUploadURL;\r\n    @Value(\"${walrus.download.url}\")\r\n    private String walrusDownloadURL;\r\n\r\n    private final RestTemplate restTemplate;\r\n\r\n    @Override\r\n    public String upload(MultipartFile file) {\r\n        return extractBlobIdFrom(restTemplate.exchange(walrusUploadURL, PUT,\r\n                buildUploadRequest(file), WalrusUploadResponse.class, createQueryParam()));\r\n    }\r\n\r\n    @Override\r\n    public byte[] getFileBy(String blobId) {\r\n        try{\r\n            log.info(\"Downloading file with id {}\", blobId);\r\n            log.info(\"URL: {}\", walrusDownloadURL + \"/\" + blobId);\r\n\r\n            RestTemplate restTemplate = new RestTemplate();\r\n            HttpHeaders headers = new HttpHeaders();\r\n            headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL));\r\n            HttpEntity<?> entity = new HttpEntity<>(headers);\r\n\r\n            ResponseEntity<byte[]> response = restTemplate.exchange(\r\n                    walrusDownloadURL + \"/\" + blobId,\r\n                    HttpMethod.GET,\r\n                    entity,\r\n                    byte[].class\r\n            );\r\n\r\n        log.info(\"Response status: {}\", response.getStatusCode());\r\n        log.info(\"Content lenght: {}\", response.getBody() != null ? response.getBody().length : \"null\");\r\n\r\n        return response.getBody();\r\n        } catch(Exception e){\r\n            log.error(\"Download failed for blob ID {} due to error: {}\", blobId, e.getMessage(), e);\r\n            return null;\r\n        }\r\n//        ResponseEntity<byte[]> response = restTemplate.getForEntity(walrusDownloadURL + \"/\" + blobId, byte[].class);\r\n//        return response.getBody();\r\n    }\r\n\r\n    private HttpEntity<?> buildUploadRequest(MultipartFile file) {\r\n        HttpHeaders headers = new HttpHeaders();\r\n        headers.setContentType(MediaType.MULTIPART_FORM_DATA);\r\n        Resource resource = file.getResource();\r\n        return new HttpEntity<>(resource, headers);\r\n    }\r\n\r\n    private static String extractBlobIdFrom(ResponseEntity<WalrusUploadResponse> response) {\r\n        WalrusUploadResponse walrusUploadResponse = response.getBody();\r\n        boolean isFileAlreadyExists = walrusUploadResponse != null && walrusUploadResponse.getNewlyCreated() == null;\r\n        if (isFileAlreadyExists) return walrusUploadResponse.getAlreadyCertified().getBlobId();\r\n        assert walrusUploadResponse != null;\r\n        return walrusUploadResponse.getNewlyCreated().getBlobObject().getBlobId();\r\n    }\r\n\r\n    private Map<String, ?> createQueryParam() {\r\n        Map<String, Object> params = new HashMap<>();\r\n        params.put(\"epochs\", epochs);\r\n        params.put(\"send_object_to\", walrusUploadAddress);\r\n        return params;\r\n    }\r\n}"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/utils/exceptions/UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/LoanApplicationServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/LoanService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/UploadProfileResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\UploadProfileResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/UploadProfilePicResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\UploadProfilePicResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/WalrusUploadResponse.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\WalrusUploadResponse.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/AlreadyCertified.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\AlreadyCertified.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/BlobObject.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\BlobObject.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/CloudServiceUseCase.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\CloudServiceUseCase.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/enums/LoanStatus.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\enums\\LoanStatus.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\UserService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example.infrastructure.adapter.output.walrus;\r\n\r\nimport lombok.RequiredArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.apache.coyote.Response;\r\nimport org.example.infrastructure.adapter.input.dto.responses.walrus.WalrusUploadResponse;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.core.io.Resource;\r\nimport org.springframework.http.*;\r\nimport org.springframework.stereotype.Component;\r\nimport org.springframework.web.client.RestTemplate;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.util.Arrays;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\nimport static org.springframework.http.HttpMethod.PUT;\r\n\r\n@Slf4j\r\n@Component\r\n@RequiredArgsConstructor\r\npublic class WalrusCloudService implements CloudServiceUseCase {\r\n    @Value(\"${walrus.epochs}\")\r\n    private String epochs;\r\n    @Value(\"${walrus.address}\")\r\n    private String walrusUploadAddress;\r\n    @Value(\"${walrus.upload.url}\")\r\n    private String walrusUploadURL;\r\n    @Value(\"${walrus.download.url}\")\r\n    private String walrusDownloadURL;\r\n\r\n    private final RestTemplate restTemplate;\r\n\r\n    @Override\r\n    public String upload(MultipartFile file) {\r\n        return extractBlobIdFrom(restTemplate.exchange(walrusUploadURL, PUT,\r\n                buildUploadRequest(file), WalrusUploadResponse.class, createQueryParam()));\r\n    }\r\n\r\n    @Override\r\n    public byte[] getFileBy(String blobId) {\r\n        try{\r\n            log.info(\"Downloading file with id {}\", blobId);\r\n            log.info(\"URL: {}\", walrusDownloadURL + \"/\" + blobId);\r\n\r\n            RestTemplate restTemplate = new RestTemplate();\r\n            HttpHeaders headers = new HttpHeaders();\r\n            headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL));\r\n            HttpEntity<?> entity = new HttpEntity<>(headers);\r\n\r\n            ResponseEntity<byte[]> response = restTemplate.exchange(\r\n                    walrusDownloadURL + \"/\" + blobId,\r\n                    HttpMethod.GET,\r\n                    entity,\r\n                    byte[].class\r\n            );\r\n\r\n        log.info(\"Response status: {}\", response.getStatusCode());\r\n        log.info(\"Content lenght: {}\", response.getBody() != null ? response.getBody().length : \"null\");\r\n\r\n        return response.getBody();\r\n        } catch(Exception e){\r\n            log.error(\"Download failed for blob ID {} due to error: {}\", blobId, e.getMessage(), e);\r\n            return null;\r\n        }\r\n//        ResponseEntity<byte[]> response = restTemplate.getForEntity(walrusDownloadURL + \"/\" + blobId, byte[].class);\r\n//        return response.getBody();\r\n    }\r\n\r\n    private HttpEntity<?> buildUploadRequest(MultipartFile file) {\r\n        HttpHeaders headers = new HttpHeaders();\r\n        headers.setContentType(MediaType.MULTIPART_FORM_DATA);\r\n        Resource resource = file.getResource();\r\n        return new HttpEntity<>(resource, headers);\r\n    }\r\n\r\n    private static String extractBlobIdFrom(ResponseEntity<WalrusUploadResponse> response) {\r\n        WalrusUploadResponse walrusUploadResponse = response.getBody();\r\n        boolean isFileAlreadyExists = walrusUploadResponse != null && walrusUploadResponse.getNewlyCreated() == null;\r\n        if (isFileAlreadyExists) return walrusUploadResponse.getAlreadyCertified().getBlobId();\r\n        assert walrusUploadResponse != null;\r\n        return walrusUploadResponse.getNewlyCreated().getBlobObject().getBlobId();\r\n    }\r\n\r\n    private Map<String, ?> createQueryParam() {\r\n        Map<String, Object> params = new HashMap<>();\r\n        params.put(\"epochs\", epochs);\r\n        params.put(\"send_object_to\", walrusUploadAddress);\r\n        return params;\r\n    }\r\n}"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\UserService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java"
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java"
+                    }
+                ]
+            },
+            "createdAt": 1751458405896,
+            "isInternal": false
+        }
+    ],
+    "isAgent": false,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "autoApply": false
+}
+}

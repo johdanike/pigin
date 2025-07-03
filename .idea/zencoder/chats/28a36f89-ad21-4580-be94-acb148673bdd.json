@@ -1,0 +1,98 @@
+{
+    "checksum": "92127f14e1d29ca20c390bded140d614baa4c71f0f7d53f7127c58d060933986",
+    "data": {
+    "id": "28a36f89-ad21-4580-be94-acb148673bdd",
+    "createdAt": 1751459390303,
+    "updatedAt": 1751459400136,
+    "title": "/repo-info",
+    "messages": [
+        {
+            "id": "3adf4f83-f264-4c7a-a62c-ad4d04af9e2a",
+            "role": "user",
+            "content": [
+                {
+                    "type": "command",
+                    "commandName": "repo-info"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1751459390306,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "command",
+                                "attrs": {
+                                    "label": "repo-info"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "/repo-info"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "e03a914a-1ad4-4451-bee4-e49217a47dbd",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Is all done"
+                }
+            ],
+            "context": {
+                "codebaseEnabled": true
+            },
+            "createdAt": 1751459398919,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Is all done"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "80046a5c-3b57-4634-9a97-9b9ea0798fd8",
+            "role": "system",
+            "content": [
+                {
+                    "type": "errorText",
+                    "text": "Rate limit exceeded. You can try again on July 03 at 08:45.",
+                    "allowRegenerate": true,
+                    "actions": [
+                        {
+                            "type": "upgradePlan",
+                            "waitSeconds": 69301
+                        }
+                    ]
+                }
+            ],
+            "createdAt": 1751459400135,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isCustomAgent": true
+}
+}

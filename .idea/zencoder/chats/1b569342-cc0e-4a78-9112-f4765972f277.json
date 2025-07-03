@@ -1,0 +1,451 @@
+{
+    "checksum": "f3315b4233af534ce902eb5b50a73f49790fdfbfd81c01fec55e03add702cf0c",
+    "data": {
+    "id": "1b569342-cc0e-4a78-9112-f4765972f277",
+    "createdAt": 1751269909772,
+    "updatedAt": 1751269933203,
+    "title": "Resolving Java Code Errors",
+    "messages": [
+        {
+            "id": "554aeeca-08ed-4ad9-af6c-817bd4d44e64",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "resolve all errors"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example.application.port.output;\r\n\r\nimport org.example.domain.model.Loan;\r\n\r\npublic interface LoanRepositoryUseCase {\r\n    Loan save(Loan loan);\r\n}\r\n"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/utils/exceptions/UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/LoanApplicationServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/utils/exceptions/UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/JwtUtil.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\JwtUtil.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/CreditScoringServiceImpl.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\CreditScoringServiceImpl.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/CreditBureauServiceImpl.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\CreditBureauServiceImpl.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/BankLinkingServiceImpl.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\BankLinkingServiceImpl.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/LoanService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/application/port/output/LoanRepositoryUseCase.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/Loan.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\Loan.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example.application.port.output;\r\n\r\nimport org.example.domain.model.Loan;\r\n\r\npublic interface LoanRepositoryUseCase {\r\n    Loan save(Loan loan);\r\n}\r\n"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java"
+                    }
+                ]
+            },
+            "createdAt": 1751269909782,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "resolve all errors"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "92c2b938-1c17-422b-8f08-a80382056bad",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "To resolve the errors in your Java code, let's address the issues in the `Loan` class and its usage in the `LoanService` class.\n\n### Issues in `Loan.java`\n\n1. **Static Field Misuse**: \n   - The line `public static org.example.domain.model.LoanStatus LoanStatus;` is incorrect. It seems like you intended to use `LoanStatus` from the `org.example.domain.model.enums` package. You should remove this line as it conflicts with the instance variable `status`.\n\n2. **Constructor Overloading**:\n   - The constructor `public Loan(Long userId, BigDecimal amount, LocalDateTime dueDate)` does not set all necessary fields. Specifically, it does not set `interestRate`, `durationInMonths`, or `status`. You should ensure all required fields are initialized.\n\n3. **Enum Usage**:\n   - Ensure that `LoanStatus` is correctly imported and used. It should be `org.example.domain.model.enums.LoanStatus`.\n\n4. **Method Implementations**:\n   - The methods `checkEligibility()` and `processPayment()` are empty. If they are not needed, consider removing them or implementing their logic.\n\n### Issues in `LoanService.java`\n\n1. **LoanStatus Usage**:\n   - Ensure that `LoanStatus` is correctly referenced. It should be `LoanStatus.APPROVED`, `LoanStatus.PENDING`, etc., without the `Loan.` prefix if `LoanStatus` is imported correctly.\n\n2. **Loan Constructor Call**:\n   - When creating a new `Loan` object, ensure all necessary parameters are passed and initialized correctly. The constructor `Loan(userId, amount, dueDate)` should be updated to match the fields in `Loan`.\n\n3. **Enum Decision Handling**:\n   - Ensure that the `CreditScoringService.LoanDecision` enum is correctly defined and used. If it doesn't exist, you need to define it or adjust the logic accordingly.\n\n### Corrected Code Snippets\n\n#### Loan.java\n\n```java\npackage org.example.domain.model;\n\nimport lombok.*;\nimport java.math.BigDecimal;\nimport java.time.LocalDate;\nimport java.util.UUID;\nimport org.example.domain.model.enums.LoanStatus;\n\n@Setter\n@Getter\n@NoArgsConstructor\n@AllArgsConstructor\npublic class Loan {\n    private String id;\n    private String userId;\n    private BigDecimal amount;\n    private double interestRate;\n    private int durationInMonths;\n    private LocalDate startDate;\n    private LocalDate endDate;\n    private LoanStatus status;\n\n    public Loan(String userId, BigDecimal amount, double interestRate, int durationInMonths) {\n        this.userId = userId;\n        this.amount = amount;\n        this.interestRate = interestRate;\n        this.durationInMonths = durationInMonths;\n        this.startDate = LocalDate.now();\n        this.endDate = this.startDate.plusMonths(durationInMonths);\n        this.status = LoanStatus.PENDING;\n    }\n\n    public Loan(Long userId, BigDecimal amount, LocalDate startDate, LocalDate endDate, LoanStatus status) {\n        this.id = String.valueOf(userId);\n        this.amount = amount;\n        this.startDate = startDate;\n        this.endDate = endDate;\n        this.status = status;\n    }\n\n    public void checkEligibility() {\n        // Implement eligibility logic\n    }\n\n    public void processPayment() {\n        // Implement payment processing logic\n    }\n\n    public void setCreditScore(int creditScore) {\n        if (creditScore >= 700) {\n            this.status = LoanStatus.APPROVED;\n        } else if (creditScore < 700 && creditScore > 600) {\n            this.status = LoanStatus.PENDING_REVIEW;\n        } else {\n            this.status = LoanStatus.REJECT;\n        }\n    }\n}\n```\n\n#### LoanService.java\n\nEnsure that `LoanStatus` is correctly imported and used without the `Loan.` prefix if it's imported directly.\n\n```java\nimport org.example.domain.model.enums.LoanStatus;\n\n// Usage in methods\nboolean hasActiveLoan = existingLoans.stream()\n    .anyMatch(loan -> loan.getStatus() == LoanStatus.APPROVED ||\n                      loan.getStatus() == LoanStatus.PENDING);\n\n// Switch case\nswitch (decision) {\n    case APPROVE:\n        loan.setStatus(LoanStatus.APPROVED);\n        // Disburse funds to wallet\n        walletService.disburseLoan(userId, amount, loan.getId());\n        break;\n    case PENDING_REVIEW:\n        loan.setStatus(LoanStatus.PENDING);\n        break;\n    case REJECT:\n        loan.setStatus(LoanStatus.REJECTED);\n        break;\n}\n```\n\nMake sure to adjust the constructor calls and logic to match your application's requirements. If there are any specific errors or exceptions, please provide them for more targeted assistance."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example.application.port.output;\r\n\r\nimport org.example.domain.model.Loan;\r\n\r\npublic interface LoanRepositoryUseCase {\r\n    Loan save(Loan loan);\r\n}\r\n"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/utils/exceptions/UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/LoanApplicationServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\LoanNotFoundException.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/utils/exceptions/UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/config/security/JwtUtil.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\config\\security\\JwtUtil.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/CreditScoringServiceImpl.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\CreditScoringServiceImpl.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/CreditBureauServiceImpl.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\CreditBureauServiceImpl.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/BankLinkingServiceImpl.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\BankLinkingServiceImpl.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/LoanService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/application/port/output/LoanRepositoryUseCase.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/Loan.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\Loan.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\application\\port\\output\\LoanRepositoryUseCase.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example.application.port.output;\r\n\r\nimport org.example.domain.model.Loan;\r\n\r\npublic interface LoanRepositoryUseCase {\r\n    Loan save(Loan loan);\r\n}\r\n"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java"
+                    }
+                ]
+            },
+            "createdAt": 1751269933203,
+            "isInternal": false
+        }
+    ],
+    "isAgent": false,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "autoApply": false
+}
+}

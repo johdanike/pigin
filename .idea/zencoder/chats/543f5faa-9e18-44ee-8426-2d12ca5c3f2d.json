@@ -1,0 +1,447 @@
+{
+    "checksum": "11c5604989447cba6fddee83735aca264821b18756435025bf1fab8a7c6c41bd",
+    "data": {
+    "id": "543f5faa-9e18-44ee-8426-2d12ca5c3f2d",
+    "createdAt": 1750430370962,
+    "updatedAt": 1750430388072,
+    "title": "Error Resolution for Java Code",
+    "messages": [
+        {
+            "id": "0ef397e3-ca64-4040-8c3d-67a782e0de06",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "now go through the code base and resolve this error"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\main\\java\\org\\example\\Main.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.boot.autoconfigure.domain.EntityScan;\nimport org.springframework.context.annotation.ComponentScan;\nimport org.springframework.data.jpa.repository.config.EnableJpaRepositories;\n\n@SpringBootApplication(scanBasePackages = \"org.example\")\n@EnableJpaRepositories(basePackages = \"org.example.infrastructure.adapter.output.repositories\")\n@EntityScan(basePackages = \"org.example.infrastructure.adapter.output.entity\")\npublic class Main {\n    public static void main(String[] args) {\n        SpringApplication.run(Main.class, args);\n    }\n}\n\n"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/utils/exceptions/UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/LoanApplicationServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/UserController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "../../AppData/Roaming/JetBrains/IntelliJIdea2024.2/scratches/generated-requests.http",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\..\\..\\AppData\\Roaming\\JetBrains\\IntelliJIdea2024.2\\scratches\\generated-requests.http",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/port/input/CreateNewLoanTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\port\\input\\CreateNewLoanTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/LoanUseCaseApplicationService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.boot.autoconfigure.domain.EntityScan;\nimport org.springframework.context.annotation.ComponentScan;\nimport org.springframework.data.jpa.repository.config.EnableJpaRepositories;\n\n@SpringBootApplication(scanBasePackages = \"org.example\")\n@EnableJpaRepositories(basePackages = \"org.example.infrastructure.adapter.output.repositories\")\n@EntityScan(basePackages = \"org.example.infrastructure.adapter.output.entity\")\npublic class Main {\n    public static void main(String[] args) {\n        SpringApplication.run(Main.class, args);\n    }\n}\n\n"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java"
+                    }
+                ]
+            },
+            "createdAt": 1750430370981,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "now go through the code base and resolve this error"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "770d26d3-63c7-4e52-af0e-9b59faa3e22a",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "To resolve the error in the `ProfilePictureServiceTest.java` file, let's analyze the code and identify potential issues:\n\n1. **Dependencies Initialization**: Ensure that all dependencies are correctly mocked and initialized in the `setUp` method. The `ProfilePictureService` is being initialized with `walrusCloudService` and `userRepository`, which are mocked correctly.\n\n2. **Field Access**: The code attempts to set a private field `walrusDownloadUrl` in the `ProfilePictureService` class. Ensure that this field exists in the `ProfilePictureService` class. If it doesn't, this will cause a `NoSuchFieldException`.\n\n3. **Test Method `userCanUploadProfilePicture_alongsideOtherProfileData_test`**:\n   - The `userService` is not initialized in the `setUp` method, which will cause a `NullPointerException` when `userService.uploadProfilePicture(userId, file)` is called.\n   - Ensure that `userService` is either mocked or properly initialized before being used in the test.\n\n4. **File Path**: The file path `\"org/example/utils/Pigin-Class-Diagram (1)-Page-1.drawio.png\"` should be valid and accessible. If the file does not exist, it will cause an `IOException`.\n\n5. **Assertions**: Ensure that the assertions in the test methods are correct and match the expected behavior of the methods being tested.\n\n### Suggested Fixes:\n\n- **Initialize `userService`**: Mock or initialize `userService` in the `setUp` method.\n- **Check Field Existence**: Verify that the `walrusDownloadUrl` field exists in the `ProfilePictureService` class.\n- **File Path Validation**: Ensure the file path used in the test is correct and the file is accessible.\n\nHere's an updated version of the `setUp` method with `userService` initialization:\n\n```java\n@BeforeEach\nvoid setUp() {\n    walrusCloudService = mock(WalrusCloudService.class);\n    userRepository = mock(UserRepositoryUseCase.class);\n    userService = mock(UserService.class); // Mocking userService\n    profilePictureService = new ProfilePictureService(walrusCloudService, userRepository);\n\n    try {\n        var field = ProfilePictureService.class.getDeclaredField(\"walrusDownloadUrl\");\n        field.setAccessible(true);\n        field.set(profilePictureService, \"http://localhost:9000/media\");\n    } catch (Exception e) {\n        throw new RuntimeException(e);\n    }\n}\n```\n\nEnsure that the `ProfilePictureService` class has the `walrusDownloadUrl` field and that the file path used in the test is correct. If the issue persists, please provide more details about the error message for further assistance."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\main\\java\\org\\example\\Main.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.boot.autoconfigure.domain.EntityScan;\nimport org.springframework.context.annotation.ComponentScan;\nimport org.springframework.data.jpa.repository.config.EnableJpaRepositories;\n\n@SpringBootApplication(scanBasePackages = \"org.example\")\n@EnableJpaRepositories(basePackages = \"org.example.infrastructure.adapter.output.repositories\")\n@EntityScan(basePackages = \"org.example.infrastructure.adapter.output.entity\")\npublic class Main {\n    public static void main(String[] args) {\n        SpringApplication.run(Main.class, args);\n    }\n}\n\n"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/utils/exceptions/UserDoesNotExistException.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\UserDoesNotExistException.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/LoanApplicationServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\utils\\exceptions\\GlobalExceptionHandler.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTestComplete.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\UserRepositoryUseCaseAdapter.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\secrets.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\secrets.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": ".gitignore",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\.gitignore",
+                        "sources": []
+                    },
+                    {
+                        "path": "pom.xml",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\pom.xml",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\resources\\application.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\resources\\application.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\resources\\application-test.properties",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\resources\\application-test.properties",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/UserController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "../../AppData/Roaming/JetBrains/IntelliJIdea2024.2/scratches/generated-requests.http",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\..\\..\\AppData\\Roaming\\JetBrains\\IntelliJIdea2024.2\\scratches\\generated-requests.http",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/port/input/CreateNewLoanTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\port\\input\\CreateNewLoanTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/LoanUseCaseApplicationService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\main\\java\\org\\example\\Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example;\n\nimport org.springframework.boot.SpringApplication;\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\nimport org.springframework.boot.autoconfigure.domain.EntityScan;\nimport org.springframework.context.annotation.ComponentScan;\nimport org.springframework.data.jpa.repository.config.EnableJpaRepositories;\n\n@SpringBootApplication(scanBasePackages = \"org.example\")\n@EnableJpaRepositories(basePackages = \"org.example.infrastructure.adapter.output.repositories\")\n@EntityScan(basePackages = \"org.example.infrastructure.adapter.output.entity\")\npublic class Main {\n    public static void main(String[] args) {\n        SpringApplication.run(Main.class, args);\n    }\n}\n\n"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java",
+                        "fsPath": "src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java"
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "fsPath": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java"
+                    }
+                ]
+            },
+            "createdAt": 1750430388072,
+            "isInternal": false
+        }
+    ],
+    "isAgent": false,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "autoApply": false
+}
+}

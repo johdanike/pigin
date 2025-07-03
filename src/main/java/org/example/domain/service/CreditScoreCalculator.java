@@ -32,15 +32,6 @@ public class CreditScoreCalculator {
         return walletInflowScore + airtimeScore + utilityScore + fintechScore + trainingScore;
     }
 
-//    private int calculateWalletInflowScore(ProfileDataEntity profileData) {
-//        WalletInflow inflow = profileData.getMonthlyWalletInflow();
-//        if (inflow == null) {
-//            return 0;
-//        }
-//
-//        return INFLOW_SCORE_MAP.get(inflow);
-//    }
-
     private int calculateWalletInflowScore(ProfileDataEntity profileData) {
         WalletInflow inflow = profileData.getMonthlyWalletInflow();
         if (inflow == null) return 0;

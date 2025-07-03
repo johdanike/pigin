@@ -1,0 +1,734 @@
+{
+    "checksum": "d39fa55f0bc1c81324fca90f93d62fb63d2e5071593d515c65cb410adb0b12dd",
+    "data": {
+    "id": "7de3656a-7845-4858-877c-1f7705868a80",
+    "createdAt": 1751515238260,
+    "updatedAt": 1751515259688,
+    "title": "Java AssertionError Debugging",
+    "messages": [
+        {
+            "id": "e8c2f3e4-18f9-4026-b0ec-14e6c7e57d31",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "java.lang.AssertionError: "
+                },
+                {
+                    "type": "text",
+                    "text": "Expecting actual not to be null"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat org.example.infrastructure.adapter.input.implemetation.ProfilePictureServiceTest.testThatUserCanGetFile(ProfilePictureServiceTest.java:108)"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)"
+                },
+                {
+                    "type": "text",
+                    "text": "\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)"
+                },
+                {
+                    "type": "text",
+                    "text": "\\"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example.infrastructure.adapter.input.implemetation;\r\n\r\nimport org.example.application.port.output.UserRepositoryUseCase;\r\nimport org.example.domain.model.User;\r\nimport org.example.domain.service.UserService;\r\nimport org.example.infrastructure.adapter.input.dto.responses.UploadProfilePicResponseDto;\r\nimport org.example.infrastructure.adapter.output.walrus.WalrusCloudService;\r\nimport org.junit.jupiter.api.BeforeEach;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.mock.web.MockMultipartFile;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.io.IOException;\r\nimport java.nio.file.Path;\r\nimport java.nio.file.Paths;\r\nimport java.util.Optional;\r\nimport java.nio.file.Files;\r\n\r\nimport static org.assertj.core.api.AssertionsForClassTypes.assertThat;\r\nimport static org.junit.jupiter.api.Assertions.*;\r\nimport static org.mockito.Mockito.*;\r\n\r\nimport lombok.extern.slf4j.Slf4j;\r\n@Slf4j\r\n@SpringBootTest\r\nclass ProfilePictureServiceTest {\r\n\r\n    private WalrusCloudService walrusCloudService;\r\n    private UserRepositoryUseCase userRepository;\r\n    private ProfilePictureService profilePictureService;\r\n    private UserService userService;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        walrusCloudService = mock(WalrusCloudService.class);\r\n        userRepository = mock(UserRepositoryUseCase.class);\r\n        profilePictureService = new ProfilePictureService(walrusCloudService, userRepository);\r\n        profilePictureService.getClass().getDeclaredFields();\r\n        try {\r\n            var field = ProfilePictureService.class.getDeclaredField(\"walrusDownloadUrl\");\r\n            field.setAccessible(true);\r\n            field.set(profilePictureService, \"http://localhost:9000/media\");\r\n        } catch (Exception e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    void testUploadProfilePicture() {\r\n        String userId = \"user123\";\r\n        User user = new User();\r\n        user.setId(userId);\r\n\r\n        when(userRepository.findById(userId)).thenReturn(Optional.of(user));\r\n        when(walrusCloudService.upload(any())).thenReturn(\"abc123\");\r\n\r\n        MockMultipartFile file = new MockMultipartFile(\"file\", \"image.jpg\",\r\n                \"image/jpeg\", \"image-data\".getBytes());\r\n        UploadProfilePicResponseDto response = profilePictureService.uploadProfilePicture(userId, file);\r\n        assertNotNull(response);\r\n        assertEquals(\"http://localhost:9000/media/abc123\", response.getImageUrl());\r\n        verify(userRepository).save(any(User.class));\r\n    }\r\n\r\n    @Test\r\n    void testUserNotFound() {\r\n        when(userRepository.findById(\"nonexistent\")).thenReturn(Optional.empty());\r\n        MockMultipartFile file = new MockMultipartFile(\"file\", \"image.jpg\", \"image/jpeg\", \"image-data\".getBytes());\r\n\r\n        RuntimeException exception = assertThrows(RuntimeException.class, () -> {\r\n            profilePictureService.uploadProfilePicture(\"nonexistent\", file);\r\n        });\r\n\r\n        assertEquals(\"User not found\", exception.getMessage());\r\n    }\r\n\r\n    @Test\r\n    void userCanUploadProfilePicture_alongsideOtherProfileData_test() {\r\n        String userId = \"userId\";\r\n        User user = new User();\r\n        user.setId(userId);\r\n\r\n        when(userRepository.findById(userId)).thenReturn(Optional.of(user));\r\n        when(walrusCloudService.upload(any())).thenReturn(\"test123\");\r\n\r\n        byte[] imageContent = \"fake-image-content\".getBytes();\r\n        MultipartFile file = new MockMultipartFile(\"image\", \"test-image.png\", \"image/png\", imageContent);\r\n        \r\n        UploadProfilePicResponseDto response = profilePictureService.uploadProfilePicture(userId, file);\r\n        assertThat(response).isNotNull();\r\n        assertThat(response.getImageUrl()).isNotNull();\r\n        assertThat(response.getImageUrl()).contains(\"test123\");\r\n    }\r\n\r\n\r\n    @Test\r\n    void testThatUserCanGetFile(){\r\n        String blobId = \"J9cXuJjM3O71evQWejrzLCeSqYEjqDLErCLeAtHuL3I\";\r\n        byte[] fileContent = profilePictureService.getFileBy(blobId);\r\n        log.info(\"data: {}\", fileContent);\r\n        assertThat(fileContent).isNotNull();\r\n        assertThat(fileContent).isNotEmpty();\r\n\r\n\r\n\r\n    }\r\n\r\n}\r\n}\r\n"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoanRequestDTO.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoanRequestDTO.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/LoanApplication.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\LoanApplication.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/CreditScoreCalculatorTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\CreditScoreCalculatorTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/LoanController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\LoanController.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/AuthController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/UserController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/AdminController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AdminController.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/CreditScoringServiceImpl.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\CreditScoringServiceImpl.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/UploadProfileRequestDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\UploadProfileRequestDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoginRequest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoginRequest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/WalletInflow.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\WalletInflow.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/DefaultedLoanDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\DefaultedLoanDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/SignUpResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\SignUpResponseDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/LoanApplicationResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\LoanApplicationResponseDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/AdminLoanSummaryDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\AdminLoanSummaryDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/application/port/input/UpdateUserProfileUseCase.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\application\\port\\input\\UpdateUserProfileUseCase.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\LoanRepositoryUseCaseAdapterTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\LoanRepositoryUseCaseAdapterTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\WalletService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\WalletService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\LoanStatusResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\LoanStatusResponseDto.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/Loan.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\Loan.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/LoanUseCaseApplicationService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/LoanService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/output/implementations/LoanRepositoryUseCaseAdapterTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\LoanRepositoryUseCaseAdapterTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/WalletService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\WalletService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/LoanApplicationServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/User.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\User.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoanRequestDTO.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoanRequestDTO.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/LoanStatusResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\LoanStatusResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/Wallet.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\Wallet.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/AlreadyCertified.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\AlreadyCertified.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/BlobObject.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\BlobObject.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example.infrastructure.adapter.input.implemetation;\r\n\r\nimport org.example.application.port.output.UserRepositoryUseCase;\r\nimport org.example.domain.model.User;\r\nimport org.example.domain.service.UserService;\r\nimport org.example.infrastructure.adapter.input.dto.responses.UploadProfilePicResponseDto;\r\nimport org.example.infrastructure.adapter.output.walrus.WalrusCloudService;\r\nimport org.junit.jupiter.api.BeforeEach;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.mock.web.MockMultipartFile;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.io.IOException;\r\nimport java.nio.file.Path;\r\nimport java.nio.file.Paths;\r\nimport java.util.Optional;\r\nimport java.nio.file.Files;\r\n\r\nimport static org.assertj.core.api.AssertionsForClassTypes.assertThat;\r\nimport static org.junit.jupiter.api.Assertions.*;\r\nimport static org.mockito.Mockito.*;\r\n\r\nimport lombok.extern.slf4j.Slf4j;\r\n@Slf4j\r\n@SpringBootTest\r\nclass ProfilePictureServiceTest {\r\n\r\n    private WalrusCloudService walrusCloudService;\r\n    private UserRepositoryUseCase userRepository;\r\n    private ProfilePictureService profilePictureService;\r\n    private UserService userService;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        walrusCloudService = mock(WalrusCloudService.class);\r\n        userRepository = mock(UserRepositoryUseCase.class);\r\n        profilePictureService = new ProfilePictureService(walrusCloudService, userRepository);\r\n        profilePictureService.getClass().getDeclaredFields();\r\n        try {\r\n            var field = ProfilePictureService.class.getDeclaredField(\"walrusDownloadUrl\");\r\n            field.setAccessible(true);\r\n            field.set(profilePictureService, \"http://localhost:9000/media\");\r\n        } catch (Exception e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    void testUploadProfilePicture() {\r\n        String userId = \"user123\";\r\n        User user = new User();\r\n        user.setId(userId);\r\n\r\n        when(userRepository.findById(userId)).thenReturn(Optional.of(user));\r\n        when(walrusCloudService.upload(any())).thenReturn(\"abc123\");\r\n\r\n        MockMultipartFile file = new MockMultipartFile(\"file\", \"image.jpg\",\r\n                \"image/jpeg\", \"image-data\".getBytes());\r\n        UploadProfilePicResponseDto response = profilePictureService.uploadProfilePicture(userId, file);\r\n        assertNotNull(response);\r\n        assertEquals(\"http://localhost:9000/media/abc123\", response.getImageUrl());\r\n        verify(userRepository).save(any(User.class));\r\n    }\r\n\r\n    @Test\r\n    void testUserNotFound() {\r\n        when(userRepository.findById(\"nonexistent\")).thenReturn(Optional.empty());\r\n        MockMultipartFile file = new MockMultipartFile(\"file\", \"image.jpg\", \"image/jpeg\", \"image-data\".getBytes());\r\n\r\n        RuntimeException exception = assertThrows(RuntimeException.class, () -> {\r\n            profilePictureService.uploadProfilePicture(\"nonexistent\", file);\r\n        });\r\n\r\n        assertEquals(\"User not found\", exception.getMessage());\r\n    }\r\n\r\n    @Test\r\n    void userCanUploadProfilePicture_alongsideOtherProfileData_test() {\r\n        String userId = \"userId\";\r\n        User user = new User();\r\n        user.setId(userId);\r\n\r\n        when(userRepository.findById(userId)).thenReturn(Optional.of(user));\r\n        when(walrusCloudService.upload(any())).thenReturn(\"test123\");\r\n\r\n        byte[] imageContent = \"fake-image-content\".getBytes();\r\n        MultipartFile file = new MockMultipartFile(\"image\", \"test-image.png\", \"image/png\", imageContent);\r\n        \r\n        UploadProfilePicResponseDto response = profilePictureService.uploadProfilePicture(userId, file);\r\n        assertThat(response).isNotNull();\r\n        assertThat(response.getImageUrl()).isNotNull();\r\n        assertThat(response.getImageUrl()).contains(\"test123\");\r\n    }\r\n\r\n\r\n    @Test\r\n    void testThatUserCanGetFile(){\r\n        String blobId = \"J9cXuJjM3O71evQWejrzLCeSqYEjqDLErCLeAtHuL3I\";\r\n        byte[] fileContent = profilePictureService.getFileBy(blobId);\r\n        log.info(\"data: {}\", fileContent);\r\n        assertThat(fileContent).isNotNull();\r\n        assertThat(fileContent).isNotEmpty();\r\n\r\n\r\n\r\n    }\r\n\r\n}\r\n}\r\n"
+                    }
+                ]
+            },
+            "createdAt": 1751515238270,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph"
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "java.lang.AssertionError: "
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Expecting actual not to be null"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat org.example.infrastructure.adapter.input.implemetation.ProfilePictureServiceTest.testThatUserCanGetFile(ProfilePictureServiceTest.java:108)"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat java.base/java.lang.reflect.Method.invoke(Method.java:569)"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1511)"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "\\"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "ce01c7c4-9643-4188-a9dc-5237eac14ec8",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "The error message you're encountering, `java.lang.AssertionError: Expecting actual not to be null`, indicates that an assertion in your test is failing because the actual value being checked is `null`. This is happening in the `testThatUserCanGetFile` method of your `ProfilePictureServiceTest` class.\n\nHere's a breakdown of the potential issue and how you might resolve it:\n\n1. **Blob ID Generation**: The `blobId` is being set by the `walrusCloudService.upload(file)` method. If this method returns `null`, the subsequent assertions will fail. Ensure that the `walrusCloudService.upload(file)` method is correctly mocked to return a non-null value.\n\n2. **Mocking the Upload Method**: In your `setUp` method, you should mock the `walrusCloudService.upload` method to return a specific non-null string. For example:\n   ```java\n   when(walrusCloudService.upload(any())).thenReturn(\"mockBlobId\");\n   ```\n\n3. **Check the `getFileBy` Method**: Ensure that the `profilePictureService.getFileBy(blobId)` method is correctly implemented and returns a non-null byte array when provided with a valid `blobId`. If this method is not correctly implemented or if the `blobId` is invalid, it might return `null`.\n\n4. **Verify the File Path**: Make sure the file path `\"C:\\\\Users\\\\DELL USER\\\\Pictures\\\\6260567907_f7eeb830b1_b.jpg\"` is correct and the file exists at that location. If the file does not exist, the `Files.newInputStream(path)` call will fail, and the `blobId` will not be set.\n\nHere's a revised version of the `testThatUserCanGetFile` method with the mock setup:\n\n```java\n@Test\nvoid testThatUserCanGetFile() {\n    String filelocation = \"C:\\\\Users\\\\DELL USER\\\\Pictures\\\\6260567907_f7eeb830b1_b.jpg\";\n    Path path = Paths.get(filelocation);\n    String blobId = \"mockBlobId\"; // Ensure this is a valid mock ID\n\n    // Mock the upload method to return a non-null blob ID\n    when(walrusCloudService.upload(any())).thenReturn(blobId);\n\n    try (var inputStream = Files.newInputStream(path)) {\n        MultipartFile file = new MockMultipartFile(\"image\", inputStream);\n        blobId = walrusCloudService.upload(file);\n        log.info(\"blobId: {}\", blobId);\n        assertThat(blobId).isNotNull();\n        assertThat(blobId).isNotEmpty();\n    } catch (IOException exception) {\n        exception.printStackTrace();\n    }\n\n    byte[] fileContent = profilePictureService.getFileBy(blobId);\n    log.info(\"data: {}\", fileContent);\n    assertThat(fileContent).isNotNull();\n    assertThat(fileContent).isNotEmpty();\n}\n```\n\nMake sure to adjust the mock setup and verify the implementation of `getFileBy` to ensure it handles the `blobId` correctly."
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                    "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "package org.example.infrastructure.adapter.input.implemetation;\r\n\r\nimport org.example.application.port.output.UserRepositoryUseCase;\r\nimport org.example.domain.model.User;\r\nimport org.example.domain.service.UserService;\r\nimport org.example.infrastructure.adapter.input.dto.responses.UploadProfilePicResponseDto;\r\nimport org.example.infrastructure.adapter.output.walrus.WalrusCloudService;\r\nimport org.junit.jupiter.api.BeforeEach;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.mock.web.MockMultipartFile;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.io.IOException;\r\nimport java.nio.file.Path;\r\nimport java.nio.file.Paths;\r\nimport java.util.Optional;\r\nimport java.nio.file.Files;\r\n\r\nimport static org.assertj.core.api.AssertionsForClassTypes.assertThat;\r\nimport static org.junit.jupiter.api.Assertions.*;\r\nimport static org.mockito.Mockito.*;\r\n\r\nimport lombok.extern.slf4j.Slf4j;\r\n@Slf4j\r\n@SpringBootTest\r\nclass ProfilePictureServiceTest {\r\n\r\n    private WalrusCloudService walrusCloudService;\r\n    private UserRepositoryUseCase userRepository;\r\n    private ProfilePictureService profilePictureService;\r\n    private UserService userService;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        walrusCloudService = mock(WalrusCloudService.class);\r\n        userRepository = mock(UserRepositoryUseCase.class);\r\n        profilePictureService = new ProfilePictureService(walrusCloudService, userRepository);\r\n        profilePictureService.getClass().getDeclaredFields();\r\n        try {\r\n            var field = ProfilePictureService.class.getDeclaredField(\"walrusDownloadUrl\");\r\n            field.setAccessible(true);\r\n            field.set(profilePictureService, \"http://localhost:9000/media\");\r\n        } catch (Exception e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    void testUploadProfilePicture() {\r\n        String userId = \"user123\";\r\n        User user = new User();\r\n        user.setId(userId);\r\n\r\n        when(userRepository.findById(userId)).thenReturn(Optional.of(user));\r\n        when(walrusCloudService.upload(any())).thenReturn(\"abc123\");\r\n\r\n        MockMultipartFile file = new MockMultipartFile(\"file\", \"image.jpg\",\r\n                \"image/jpeg\", \"image-data\".getBytes());\r\n        UploadProfilePicResponseDto response = profilePictureService.uploadProfilePicture(userId, file);\r\n        assertNotNull(response);\r\n        assertEquals(\"http://localhost:9000/media/abc123\", response.getImageUrl());\r\n        verify(userRepository).save(any(User.class));\r\n    }\r\n\r\n    @Test\r\n    void testUserNotFound() {\r\n        when(userRepository.findById(\"nonexistent\")).thenReturn(Optional.empty());\r\n        MockMultipartFile file = new MockMultipartFile(\"file\", \"image.jpg\", \"image/jpeg\", \"image-data\".getBytes());\r\n\r\n        RuntimeException exception = assertThrows(RuntimeException.class, () -> {\r\n            profilePictureService.uploadProfilePicture(\"nonexistent\", file);\r\n        });\r\n\r\n        assertEquals(\"User not found\", exception.getMessage());\r\n    }\r\n\r\n    @Test\r\n    void userCanUploadProfilePicture_alongsideOtherProfileData_test() {\r\n        String userId = \"userId\";\r\n        User user = new User();\r\n        user.setId(userId);\r\n\r\n        when(userRepository.findById(userId)).thenReturn(Optional.of(user));\r\n        when(walrusCloudService.upload(any())).thenReturn(\"test123\");\r\n\r\n        byte[] imageContent = \"fake-image-content\".getBytes();\r\n        MultipartFile file = new MockMultipartFile(\"image\", \"test-image.png\", \"image/png\", imageContent);\r\n        \r\n        UploadProfilePicResponseDto response = profilePictureService.uploadProfilePicture(userId, file);\r\n        assertThat(response).isNotNull();\r\n        assertThat(response.getImageUrl()).isNotNull();\r\n        assertThat(response.getImageUrl()).contains(\"test123\");\r\n    }\r\n\r\n\r\n    @Test\r\n    void testThatUserCanGetFile(){\r\n        String blobId = \"J9cXuJjM3O71evQWejrzLCeSqYEjqDLErCLeAtHuL3I\";\r\n        byte[] fileContent = profilePictureService.getFileBy(blobId);\r\n        log.info(\"data: {}\", fileContent);\r\n        assertThat(fileContent).isNotNull();\r\n        assertThat(fileContent).isNotEmpty();\r\n\r\n\r\n\r\n    }\r\n\r\n}\r\n}\r\n"
+                },
+                "codebaseEnabled": true,
+                "ragFiles": [
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/output/walrus/WalrusCloudService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\output\\walrus\\WalrusCloudService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoanRequestDTO.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoanRequestDTO.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/LoanApplication.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\LoanApplication.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/UserService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\UserService.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/CreditScoreCalculatorTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\CreditScoreCalculatorTest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/LoanController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\LoanController.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/AuthController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AuthController.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/UserController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\UserController.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/controller/AdminController.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\controller\\AdminController.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/CreditScoringServiceImpl.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\CreditScoringServiceImpl.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/UploadProfileRequestDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\UploadProfileRequestDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoginRequest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoginRequest.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/WalletInflow.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\WalletInflow.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/DefaultedLoanDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\DefaultedLoanDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/SignUpResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\SignUpResponseDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/LoanApplicationResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\LoanApplicationResponseDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/AdminLoanSummaryDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\AdminLoanSummaryDto.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/application/port/input/UpdateUserProfileUseCase.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\application\\port\\input\\UpdateUserProfileUseCase.java",
+                        "sources": [
+                            "keyword_search"
+                        ]
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\LoanRepositoryUseCaseAdapterTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\LoanRepositoryUseCaseAdapterTest.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\domain\\service\\WalletService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\WalletService.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\LoanStatusResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\LoanStatusResponseDto.java",
+                        "sources": []
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/Loan.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\Loan.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/LoanUseCaseApplicationService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\LoanUseCaseApplicationService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/implemetation/LoanService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\LoanService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/output/implementations/LoanRepositoryUseCaseAdapterTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\output\\implementations\\LoanRepositoryUseCaseAdapterTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/service/WalletService.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\service\\WalletService.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/infrastructure/adapter/input/implemetation/ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/LoanApplicationServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\LoanApplicationServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/test/java/org/example/domain/service/UserServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\domain\\service\\UserServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/User.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\User.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/requests/LoanRequestDTO.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\requests\\LoanRequestDTO.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/LoanStatusResponseDto.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\LoanStatusResponseDto.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/domain/model/Wallet.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\domain\\model\\Wallet.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/Main.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\Main.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/AlreadyCertified.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\AlreadyCertified.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    },
+                    {
+                        "path": "src/main/java/org/example/infrastructure/adapter/input/dto/responses/walrus/BlobObject.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\main\\java\\org\\example\\infrastructure\\adapter\\input\\dto\\responses\\walrus\\BlobObject.java",
+                        "sources": [
+                            "opened_tab"
+                        ]
+                    }
+                ],
+                "rerankedFiles": [
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java"
+                    }
+                ],
+                "usedFilePaths": [
+                    {
+                        "path": "src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "fsPath": "C:\\Users\\DELL USER\\Desktop\\pigin\\src\\test\\java\\org\\example\\infrastructure\\adapter\\input\\implemetation\\ProfilePictureServiceTest.java",
+                        "sources": [
+                            "opened_tab"
+                        ],
+                        "content": "package org.example.infrastructure.adapter.input.implemetation;\r\n\r\nimport org.example.application.port.output.UserRepositoryUseCase;\r\nimport org.example.domain.model.User;\r\nimport org.example.domain.service.UserService;\r\nimport org.example.infrastructure.adapter.input.dto.responses.UploadProfilePicResponseDto;\r\nimport org.example.infrastructure.adapter.output.walrus.WalrusCloudService;\r\nimport org.junit.jupiter.api.BeforeEach;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.mock.web.MockMultipartFile;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.io.IOException;\r\nimport java.nio.file.Path;\r\nimport java.nio.file.Paths;\r\nimport java.util.Optional;\r\nimport java.nio.file.Files;\r\n\r\nimport static org.assertj.core.api.AssertionsForClassTypes.assertThat;\r\nimport static org.junit.jupiter.api.Assertions.*;\r\nimport static org.mockito.Mockito.*;\r\n\r\nimport lombok.extern.slf4j.Slf4j;\r\n@Slf4j\r\n@SpringBootTest\r\nclass ProfilePictureServiceTest {\r\n\r\n    private WalrusCloudService walrusCloudService;\r\n    private UserRepositoryUseCase userRepository;\r\n    private ProfilePictureService profilePictureService;\r\n    private UserService userService;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        walrusCloudService = mock(WalrusCloudService.class);\r\n        userRepository = mock(UserRepositoryUseCase.class);\r\n        profilePictureService = new ProfilePictureService(walrusCloudService, userRepository);\r\n        profilePictureService.getClass().getDeclaredFields();\r\n        try {\r\n            var field = ProfilePictureService.class.getDeclaredField(\"walrusDownloadUrl\");\r\n            field.setAccessible(true);\r\n            field.set(profilePictureService, \"http://localhost:9000/media\");\r\n        } catch (Exception e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    void testUploadProfilePicture() {\r\n        String userId = \"user123\";\r\n        User user = new User();\r\n        user.setId(userId);\r\n\r\n        when(userRepository.findById(userId)).thenReturn(Optional.of(user));\r\n        when(walrusCloudService.upload(any())).thenReturn(\"abc123\");\r\n\r\n        MockMultipartFile file = new MockMultipartFile(\"file\", \"image.jpg\",\r\n                \"image/jpeg\", \"image-data\".getBytes());\r\n        UploadProfilePicResponseDto response = profilePictureService.uploadProfilePicture(userId, file);\r\n        assertNotNull(response);\r\n        assertEquals(\"http://localhost:9000/media/abc123\", response.getImageUrl());\r\n        verify(userRepository).save(any(User.class));\r\n    }\r\n\r\n    @Test\r\n    void testUserNotFound() {\r\n        when(userRepository.findById(\"nonexistent\")).thenReturn(Optional.empty());\r\n        MockMultipartFile file = new MockMultipartFile(\"file\", \"image.jpg\", \"image/jpeg\", \"image-data\".getBytes());\r\n\r\n        RuntimeException exception = assertThrows(RuntimeException.class, () -> {\r\n            profilePictureService.uploadProfilePicture(\"nonexistent\", file);\r\n        });\r\n\r\n        assertEquals(\"User not found\", exception.getMessage());\r\n    }\r\n\r\n    @Test\r\n    void userCanUploadProfilePicture_alongsideOtherProfileData_test() {\r\n        String userId = \"userId\";\r\n        User user = new User();\r\n        user.setId(userId);\r\n\r\n        when(userRepository.findById(userId)).thenReturn(Optional.of(user));\r\n        when(walrusCloudService.upload(any())).thenReturn(\"test123\");\r\n\r\n        byte[] imageContent = \"fake-image-content\".getBytes();\r\n        MultipartFile file = new MockMultipartFile(\"image\", \"test-image.png\", \"image/png\", imageContent);\r\n        \r\n        UploadProfilePicResponseDto response = profilePictureService.uploadProfilePicture(userId, file);\r\n        assertThat(response).isNotNull();\r\n        assertThat(response.getImageUrl()).isNotNull();\r\n        assertThat(response.getImageUrl()).contains(\"test123\");\r\n    }\r\n\r\n\r\n    @Test\r\n    void testThatUserCanGetFile(){\r\n        String blobId = \"J9cXuJjM3O71evQWejrzLCeSqYEjqDLErCLeAtHuL3I\";\r\n        byte[] fileContent = profilePictureService.getFileBy(blobId);\r\n        log.info(\"data: {}\", fileContent);\r\n        assertThat(fileContent).isNotNull();\r\n        assertThat(fileContent).isNotEmpty();\r\n\r\n\r\n\r\n    }\r\n\r\n}\r\n}\r\n"
+                    }
+                ]
+            },
+            "createdAt": 1751515259688,
+            "isInternal": false
+        }
+    ],
+    "isAgent": false,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "autoApply": false
+}
+}

@@ -1,4 +1,8 @@
 package org.example.domain.model.enums;
 
-public class RepaymentStatus {
+public enum RepaymentStatus {
+    PENDING,
+    SCHEDULED,
+    COMPLETED,
+    FAILED,
 }
